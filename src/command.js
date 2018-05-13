@@ -28,6 +28,7 @@ class Command {
         if (overwrite) {
             this.flagsHash[name] = newFlag;
         }
+        return this;
     }
     removeFlag(name) {
         if (this.flagsHash[name]) {
@@ -35,12 +36,14 @@ class Command {
             delete this.flagsHash[name];
             this.currentFlags.splice(foundIndex, 1);
         }
+        return this;
     }
     addGlobal(name, value = null) {
         if (GLOBAL_FLAGS[name] && GLOBAL_FLAGS[name](value)) {
             this.currentGlobalFlags = this.currentGlobalFlags.filter((flag) => flag.name !== name);
             this.currentGlobalFlags.push({name, value});
         }
+        return this;
     }
     process() {
         return this.commands.reduce((prev, command, i) => {

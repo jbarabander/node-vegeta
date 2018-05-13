@@ -9,19 +9,19 @@ class Dumper extends Command {
         if (typeof value !== 'string') {
             throw Error('inputs must be a string');
         }
-        this.addFlag('inputs', value);
+        return this.addFlag('inputs', value);
     }
     output(value) {
         if (typeof value !== 'string') {
             throw Error('output must be a string');
         }
-        this.addFlag('output', value);
+        return this.addFlag('output', value);
     }
     dumper(value) {
         if (dumperValues.find(value)) {
             throw Error('reporter must be either json or csv');
         }
-        this.addFlag('dumper', value);
+        return this.addFlag('dumper', value);
     }
 }
 
