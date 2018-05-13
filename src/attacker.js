@@ -81,7 +81,7 @@ class Attacker extends Command {
         return this.addFlag('output', value);
     }
     rate(value) {
-        if (isInteger(value) && value >= 0) {
+        if (!isInteger(value) || value < 0) {
             throw Error('rate must be a positive integer');
         }
         return this.addFlag('rate', value);
@@ -112,7 +112,7 @@ class Attacker extends Command {
         return this.addFlag('timeout', convertedVal);
     }
     workers(value) {
-        if (isInteger(value) && value >= 0) {
+        if (isInteger(value) || value < 0) {
             throw Error('workers must be a positive integer');
         }
         return this.addFlag('workers', value);

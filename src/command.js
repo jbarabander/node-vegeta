@@ -48,25 +48,21 @@ class Command {
     process() {
         return this.commands.reduce((prev, command, i) => {
             const flags = this.flags[i];
-            const globalFlags = this.globlaFlags[i];
-            const globalFlagsStr = transformFlags(this.globalFlags);
-            const commandFlagsStr = transformFlags(flags);
-            let run = spawn;
-            if (
-                commandStr === 'attack' && 
-                !flags.find((flag) => flag.name === 'attack' && flag.value !== 'stdin')
-            ) {
-                run = exec;
-            }
-            const commandStr = `vegeta ${globalFlagsStr} ${command} ${commandFlagsStr}`;
-            const command = run(commandStr);
+            const globalFlags = this.globalFlags[i];
+            const parsedGlobalFlags = transformFlags(globalFlags);
+            const parsedCommandFlags = transformFlags(flags);
+            const allOptions = parsedGlobalFlags.concat([command], parsedCommandFlags);
+            let commandToGiveBack = spawn('vegeta', allOptions);
             if (prev) {
                 prev.stdout.on('data', (data) => {
-                    command.stdin.write(data);
+                    commandToGiveBack.stdin.write(data);
+                });
+                prev.on('close', (code) => {
+                    commandToGiveBack.stdin.end();
                 })
             }
-            return command;
-        });
+            return commandToGiveBack;
+        }, null);
     }
 }
 
