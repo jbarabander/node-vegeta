@@ -47,9 +47,16 @@ class Command {
             const flags = this.flags[i];
             const globalFlags = this.globlaFlags[i];
             const globalFlagsStr = transformFlags(this.globalFlags);
-            const commandFlagsStr = transformFlags(nextFlags);
+            const commandFlagsStr = transformFlags(flags);
+            let run = spawn;
+            if (
+                commandStr === 'attack' && 
+                !flags.find((flag) => flag.name === 'attack' && flag.value !== 'stdin')
+            ) {
+                run = exec;
+            }
             const commandStr = `vegeta ${globalFlagsStr} ${command} ${commandFlagsStr}`;
-            const command = spawn(commandStr);
+            const command = run(commandStr);
             if (prev) {
                 prev.stdout.on('data', (data) => {
                     command.stdin.write(data);

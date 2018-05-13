@@ -1,5 +1,4 @@
-import Command from './command';
-
+const Command = require('./command');
 const dumperValues = ['json', 'csv'];
 
 class Dumper extends Command {

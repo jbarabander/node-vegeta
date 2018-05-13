@@ -1,6 +1,4 @@
-import Command from './command';
-
-
+const Command = require('./command');
 const reporterValues = ['text', 'json', 'plot'];
 
 class Reporter extends Command {
