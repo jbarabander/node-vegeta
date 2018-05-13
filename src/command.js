@@ -39,7 +39,7 @@ class Command {
     addGlobal(name, value = null) {
         if (GLOBAL_FLAGS[name] && GLOBAL_FLAGS[name](value)) {
             this.currentGlobalFlags = this.currentGlobalFlags.filter((flag) => flag.name !== name);
-            this.currentGlobalFlags.push({name, value});ååå
+            this.currentGlobalFlags.push({name, value});
         }
     }
     process() {
