@@ -94,6 +94,12 @@ class Attacker extends Command {
         }
         this.addFlag('redirects', value);
     }
+    rootCerts(value) {
+        if (typeof value !== 'string') {
+            throw Error('root-certs must be a string');
+        }
+        this.addFlag('root-certs', value);
+    }
     targets(file) {
         if (typeof file !== 'string') {
             throw Error('targets must be a string');

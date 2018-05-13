@@ -56,7 +56,7 @@ class Command {
                 })
             }
             return command;
-        })
+        });
     }
 }
 
