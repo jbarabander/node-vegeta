@@ -1,4 +1,4 @@
-const { isInteger } = require('./utils');
+const { isInteger, createCommand } = require('./utils');
 const Command = require('./command');
 
 const convertToDuration = (value) => typeof value === 'number' ? `${value}ms` : value;
@@ -118,7 +118,11 @@ class Attacker extends Command {
         return this.addFlag('workers', value);
     }
     request(method, url) {
-        this.requestStr = `${method.toUpperCase()} ${url}`;
+        const command = createCommand(this.currentCommand, this.currentFlags, this.currentGlobalFlags);
+        command.stdin.setEncoding('utf-8');
+        command.stdin.write(`${method.toUpperCase()} ${url}\n`);
+        command.std.end();
+        return command;
     }
 }
 
