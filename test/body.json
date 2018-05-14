@@ -1,3 +1,0 @@
-{
-	"query": "query { players(team: \"New York Yankees\") { position name BA HR RBI team { name city state } } team(name: \"Boston Red Sox\") { name city state founded } }"
-}
