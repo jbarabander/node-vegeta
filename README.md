@@ -4,6 +4,7 @@ node.js bindings for the wonderful vegeta load-testing library.  See here: https
 ## About
 Vegeta is an awesome load-testing library.  It makes load testing super stress-free and is overall a real joy to use.  However, currently there doesn't seem to be a library allowing you to use vegeta in a javascript context.  This library sets out to change this by exposing the CLI implementation of vegeta in the node.js environment.
 
+NOTE: vegeta must be installed on your machine in order to use this library.  For help doing that see here: https://github.com/tsenart/vegeta#install
 ## Installation
 ```sh
 npm install node-vegeta --save
