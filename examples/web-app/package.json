@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "archiver": "^2.1.1",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "node-vegeta": "^1.0.1"
+  }
+}
