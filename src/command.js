@@ -54,15 +54,25 @@ class Command {
             const allOptions = parsedGlobalFlags.concat([command], parsedCommandFlags);
             let commandToGiveBack = spawn('vegeta', allOptions);
             if (prev) {
-                prev.stdout.on('data', (data) => {
-                    commandToGiveBack.stdin.write(data);
-                });
-                prev.on('close', (code) => {
-                    commandToGiveBack.stdin.end();
-                })
+                prev.stdout.pipe(commandToGiveBack.stdin);
             }
             return commandToGiveBack;
         }, null);
+    }
+    pipe(dest) {
+        const currentCommand = this.process();
+        if (dest instanceof Command) {
+            const destCommand = dest.process();
+            currentCommand.stdout.pipe(destCommand.stdin);
+            return destCommand.stdout;
+        }
+        currentCommand.stdout.pipe(dest);
+        return dest;
+    }
+    on(event, cb) {
+        const currentCommand = this.process();
+        currentCommand.on(event, cb);
+        return currentCommand;
     }
 }
 

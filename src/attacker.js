@@ -117,6 +117,9 @@ class Attacker extends Command {
         }
         return this.addFlag('workers', value);
     }
+    request(method, url) {
+        this.requestStr = `${method.toUpperCase()} ${url}`;
+    }
 }
 
 module.exports = Attacker;
