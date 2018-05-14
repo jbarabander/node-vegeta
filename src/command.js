@@ -1,5 +1,5 @@
 const { spawn, exec } = require('child_process');
-const { isInteger, transformFlags } = require('./utils');
+const { isInteger, createCommand } = require('./utils');
 
 const GLOBAL_FLAGS = {
     cpus: isInteger,
@@ -49,10 +49,7 @@ class Command {
         return this.commands.reduce((prev, command, i) => {
             const flags = this.flags[i];
             const globalFlags = this.globalFlags[i];
-            const parsedGlobalFlags = transformFlags(globalFlags);
-            const parsedCommandFlags = transformFlags(flags);
-            const allOptions = parsedGlobalFlags.concat([command], parsedCommandFlags);
-            let commandToGiveBack = spawn('vegeta', allOptions);
+            let commandToGiveBack = createCommand(command, flags, globalFlags);
             if (prev) {
                 prev.stdout.pipe(commandToGiveBack.stdin);
             }
