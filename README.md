@@ -21,7 +21,7 @@ Using node-vegeta is very similar to using vegeta via CLI.  All vegeta commands 
 ```js
 const Attack = require('node-vegeta').Attack;
 const testAttack = new Attack(); // spawns an attack command
-baseAttack
+testAttack
     .targets('targets.txt')
     .body('body.json')
     .rate(500)
@@ -33,3 +33,33 @@ baseAttack
     })
 ```
 All flags for `attack`, `report`, and `dump` are also supported by the node interface.
+
+### Streaming
+This library supports streaming from the get-go.  It should be very easy to integrate with the wonderful streaming
+ecosystem that nodejs supports
+Example:
+```js
+const fs = require('fs');
+const path = require('path');
+const vegeta = require('../src');
+const Attack = vegeta.Attack;
+const Report = vegeta.Report;
+const testAttack = new Attack();
+const testReport = new Report();
+const summaryStream = fs.createWriteStream(path.join(__dirname, 'summary.json'));
+const resultsStream = fs.createWriteStream(path.join(__dirname, 'results.bin'));
+const attackCommand = testAttack
+    .body(path.join(__dirname, 'body.json'))
+    .rate(500)
+    .duration('5s')
+    .process();
+const reportCommand = testReport.reporter('json').process();
+
+attackCommand.stdin.setEncoding('utf-8');
+attackCommand.stdin.write('GET localhost:3000\n'); // fire the attack to localhost:3000
+attackCommand.stdin.end();
+
+attackCommand.stdout.pipe(resultsFile);  // stream results to the results file
+attackCommand.stdout.pipe(reportCommand.stdin); // streams results to the report command
+reportCommand.stdout.pipe(summaryFile); // stream report to the summary file
+```
