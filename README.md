@@ -41,7 +41,7 @@ Example:
 ```js
 const fs = require('fs');
 const path = require('path');
-const vegeta = require('../src');
+const vegeta = require('node-vegeta');
 const Attack = vegeta.Attack;
 const Report = vegeta.Report;
 const testAttack = new Attack();
