@@ -13,6 +13,6 @@
     "node",
     "load-testing",
     "testing",
-    "load",
-  ],
+    "load"
+  ]
 }
