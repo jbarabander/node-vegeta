@@ -1,6 +1,6 @@
 {
   "name": "node-vegeta",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "vegeta in node!",
   "main": "src/index.js",
   "license": "MIT",
