@@ -71,6 +71,12 @@ class Command {
         currentCommand.on(event, cb);
         return currentCommand;
     }
+    out() {
+        return this.process().stdout;
+    }
+    in() {
+        return this.process().stdin;
+    }
 }
 
 module.exports = Command;
