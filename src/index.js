@@ -22,6 +22,7 @@ Reporter.prototype.attack = function () {
 
 module.exports = {
     Report: Reporter,
+    ATTACK: Attacker,
     Attack: Attacker,
     Dump: Dumper,
 };
