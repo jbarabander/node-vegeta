@@ -1,4 +1,6 @@
-# node-vegeta
+# scouter
+VEGETA! WHAT DOES THE SCOUTER SAY ABOUT HIS POWER LEVEL?!?!
+
 node.js bindings for the wonderful vegeta load-testing library.  See here: https://github.com/tsenart/vegeta
 
 ## About
