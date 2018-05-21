@@ -2,8 +2,8 @@ const Command = require('./command');
 const reporterValues = ['text', 'json', 'plot'];
 
 class Reporter extends Command {
-    constructor(priorCommands) {
-        super('report', priorCommands);
+    constructor(priorCommands, options) {
+        super('report', priorCommands, options);
     }
     inputs(value) {
         if (typeof value !== 'string') {

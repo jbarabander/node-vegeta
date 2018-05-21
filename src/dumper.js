@@ -2,8 +2,8 @@ const Command = require('./command');
 const dumperValues = ['json', 'csv'];
 
 class Dumper extends Command {
-    constructor(priorCommands) {
-        super('dump', priorCommands);
+    constructor(priorCommands, options) {
+        super('dump', priorCommands, options);
     }
     inputs(value) {
         if (typeof value !== 'string') {

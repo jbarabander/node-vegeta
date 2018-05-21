@@ -14,38 +14,58 @@ class Command {
             flags: command.flags.slice(),
             globalFlags: command.globalFlags.slice(),
         }));
+        const flags = options.flags || [];
         this.currentCmd = {
             name,
-            flags: options.flags || [],
+            flags,
             globalFlags: options.globalFlags || []
         };
-        this.flagsHash = {};
+        this.flagsHash = flags.reduce((prev, curr) => {
+            if(curr.name) {
+                prev[curr.name] = curr;
+            }
+            return prev;
+        }, {});
         this.commands.push(this.currentCmd);
     }
+    generateCopy() {
+        const CurrentCommand = this.constructor;
+        const args = [
+            this.commands.slice(0, this.commands.length - 1),
+            {flags: this.currentCmd.flags, globalFlags: this.currentCmd.globalFlags}
+        ];
+        if (CurrentCommand === Command) {
+            args.unshift(this.currentCmd.name);
+        }
+        return new CurrentCommand(...args);
+    }
     addFlag(name, value = null, overwrite = true) {
+        const newCopy = this.generateCopy();
         const newFlag = {name, value};
         if(!this.flagsHash[name] || !overwrite) {
-            this.currentCmd.flags.push(newFlag);
+            newCopy.currentCmd.flags.push(newFlag);
         }
         if (overwrite) {
             this.flagsHash[name] = newFlag;
         }
-        return this;
+        return newCopy;
     }
     removeFlag(name) {
+        const newCopy = this.generateCopy();
         if (this.flagsHash[name]) {
-            const foundIndex = this.currentCmd.flags.indexOf(this.flagsHash[name]);
-            delete this.flagsHash[name];
-            this.currentCmd.flags.splice(foundIndex, 1);
+            const foundIndex = newCopy.currentCmd.flags.indexOf(newCopy.flagsHash[name]);
+            delete newCopy.flagsHash[name];
+            newCopy.currentCmd.flags.splice(foundIndex, 1);
         }
-        return this;
+        return newCopy;
     }
     addGlobal(name, value = null) {
+        const newCopy = this.generateCopy();
         if (GLOBAL_FLAGS[name] && GLOBAL_FLAGS[name](value)) {
-            this.currentCmd.globalFlags = this.currentCmd.globalFlags.filter((flag) => flag.name !== name);
-            this.currentCmd.globalFlags.push({name, value});
+            newCopy.currentCmd.globalFlags = newCopy.currentCmd.globalFlags.filter((flag) => flag.name !== name);
+            newCopy.currentCmd.globalFlags.push({name, value});
         }
-        return this;
+        return newCopy;
     }
     process() {
         return this.commands.reduce((prev, command, i) => {

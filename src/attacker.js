@@ -6,8 +6,8 @@ const Reporter = require('./reporter');
 const convertToDuration = (value) => typeof value === 'number' ? `${value}ms` : value;
 
 class Attacker extends Command {
-    constructor(priorCommands) {
-        super('attack', priorCommands);
+    constructor(priorCommands, options) {
+        super('attack', priorCommands, options);
     }
     body(file) {
         if (typeof file !== 'string') {
