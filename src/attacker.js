@@ -1,5 +1,7 @@
 const { isInteger, createCommand } = require('./utils');
 const Command = require('./command');
+const Dumper = require('./dumper');
+const Reporter = require('./reporter');
 
 const convertToDuration = (value) => typeof value === 'number' ? `${value}ms` : value;
 
@@ -123,6 +125,12 @@ class Attacker extends Command {
         command.stdin.write(`${method.toUpperCase()} ${url}\n`);
         command.std.end();
         return command;
+    }
+    dump() {
+        return new Dumper(this.commands, this.flags, this.globalFlags);
+    }
+    report() {
+        return new Reporter(this.commands, this.flags, this.globalFlags);
     }
 }
 
