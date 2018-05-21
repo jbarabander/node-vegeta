@@ -8,22 +8,24 @@ const GLOBAL_FLAGS = {
 }
 
 class Command {
-    constructor(command = null, priorCommands = [], priorFlags = [], globalFlags = []) {
-        this.commands = priorCommands.slice();
-        this.flags = priorFlags.slice();
-        this.globalFlags = globalFlags.slice();
-        this.currentCommand = command;
-        this.currentFlags = [];
-        this.currentGlobalFlags = [];
+    constructor(name = null, priorCommands = []) {
+        this.commands = priorCommands.slice().map((command) => ({
+            name: command.name,
+            flags: command.flags.slice(),
+            globalFlags: command.globalFlags.slice(),
+        }));
+        this.currentCmd = {
+            name,
+            flags: [],
+            globalFlags: []
+        };
         this.flagsHash = {};
-        this.flags.push(this.currentFlags);
-        this.commands.push(this.currentCommand);
-        this.globalFlags.push(this.currentGlobalFlags);
+        this.commands.push(this.currentCmd);
     }
     addFlag(name, value = null, overwrite = true) {
         const newFlag = {name, value};
         if(!this.flagsHash[name] || !overwrite) {
-            this.currentFlags.push(newFlag);
+            this.currentCmd.flags.push(newFlag);
         }
         if (overwrite) {
             this.flagsHash[name] = newFlag;
@@ -32,24 +34,24 @@ class Command {
     }
     removeFlag(name) {
         if (this.flagsHash[name]) {
-            const foundIndex = this.currentFlags.indexOf(this.flagsHash[name]);
+            const foundIndex = this.currentCmd.flags.indexOf(this.flagsHash[name]);
             delete this.flagsHash[name];
-            this.currentFlags.splice(foundIndex, 1);
+            this.currentCmd.flags.splice(foundIndex, 1);
         }
         return this;
     }
     addGlobal(name, value = null) {
         if (GLOBAL_FLAGS[name] && GLOBAL_FLAGS[name](value)) {
-            this.currentGlobalFlags = this.currentGlobalFlags.filter((flag) => flag.name !== name);
-            this.currentGlobalFlags.push({name, value});
+            this.currentCmd.globalFlags = this.currentCmd.globalFlags.filter((flag) => flag.name !== name);
+            this.currentCmd.globalFlags.push({name, value});
         }
         return this;
     }
     process() {
         return this.commands.reduce((prev, command, i) => {
-            const flags = this.flags[i];
-            const globalFlags = this.globalFlags[i];
-            let commandToGiveBack = createCommand(command, flags, globalFlags);
+            const flags = command.flags;
+            const globalFlags = command.globalFlags;
+            let commandToGiveBack = createCommand(command.name, flags, globalFlags);
             if (prev) {
                 prev.stdout.pipe(commandToGiveBack.stdin);
             }

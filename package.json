@@ -4,6 +4,9 @@
   "description": "vegeta in node!",
   "main": "src/index.js",
   "license": "MIT",
+  "scripts": {
+    "test": "node ./node_modules/.bin/mocha ./tests"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/jbarabander/node-vegeta.git"
@@ -14,5 +17,9 @@
     "load-testing",
     "testing",
     "load"
-  ]
+  ],
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0"
+  }
 }
