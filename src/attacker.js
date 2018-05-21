@@ -6,8 +6,8 @@ const Reporter = require('./reporter');
 const convertToDuration = (value) => typeof value === 'number' ? `${value}ms` : value;
 
 class Attacker extends Command {
-    constructor(priorCommands, priorFlags, globalFlags) {
-        super('attack', priorCommands, priorFlags, globalFlags);
+    constructor(priorCommands, options) {
+        super('attack', priorCommands, options);
     }
     body(file) {
         if (typeof file !== 'string') {
@@ -120,17 +120,17 @@ class Attacker extends Command {
         return this.addFlag('workers', value);
     }
     request(method, url) {
-        const command = createCommand(this.currentCommand, this.currentFlags, this.currentGlobalFlags);
+        const command = createCommand(this.currentCmd.name, this.currentCmd.flags, this.currentCmd.globalFlags);
         command.stdin.setEncoding('utf-8');
         command.stdin.write(`${method.toUpperCase()} ${url}\n`);
         command.std.end();
         return command;
     }
     dump() {
-        return new Dumper(this.commands, this.flags, this.globalFlags);
+        return new Dumper(this.commands);
     }
     report() {
-        return new Reporter(this.commands, this.flags, this.globalFlags);
+        return new Reporter(this.commands);
     }
 }
 
