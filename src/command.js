@@ -8,7 +8,7 @@ const GLOBAL_FLAGS = {
 }
 
 class Command {
-    constructor(name = null, priorCommands = []) {
+    constructor(name = null, priorCommands = [], options = {flags: [], globalFlags: []}) {
         this.commands = priorCommands.slice().map((command) => ({
             name: command.name,
             flags: command.flags.slice(),
@@ -16,8 +16,8 @@ class Command {
         }));
         this.currentCmd = {
             name,
-            flags: [],
-            globalFlags: []
+            flags: options.flags || [],
+            globalFlags: options.globalFlags || []
         };
         this.flagsHash = {};
         this.commands.push(this.currentCmd);
