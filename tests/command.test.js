@@ -13,4 +13,22 @@ describe('Command', () => {
         expect(command.commands).to.deep.equal(expectedCommands);
         done();
     });
+    describe('addFlag', () => {
+        it('should return new version of command', (done) => {
+            const command = new Command();
+            const newCommand = command.addFlag('foo', 'bar');
+            expect(newCommand).to.be.an.instanceOf(Command);
+            expect(newCommand).to.not.equal(command);
+            done();
+        });
+    });
+    describe('addGlobal', () => {
+        it('should return new version of command', (done) => {
+            const command = new Command();
+            const newCommand = command.addGlobal('cpus', 2);
+            expect(newCommand).to.be.an.instanceOf(Command);
+            expect(command).to.not.equal(newCommand);
+            done();
+        });
+    });
 })

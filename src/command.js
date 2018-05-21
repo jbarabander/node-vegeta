@@ -51,13 +51,12 @@ class Command {
         return newCopy;
     }
     removeFlag(name) {
-        const newCopy = this.generateCopy();
         if (this.flagsHash[name]) {
-            const foundIndex = newCopy.currentCmd.flags.indexOf(newCopy.flagsHash[name]);
-            delete newCopy.flagsHash[name];
-            newCopy.currentCmd.flags.splice(foundIndex, 1);
+            const foundIndex = this.currentCmd.flags.indexOf(this.flagsHash[name]);
+            delete this.flagsHash[name];
+            this.currentCmd.flags.splice(foundIndex, 1);
         }
-        return newCopy;
+        return this;
     }
     addGlobal(name, value = null) {
         const newCopy = this.generateCopy();
