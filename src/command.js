@@ -95,13 +95,11 @@ class Command {
             currentCommand.pipe(destCommand, ...options);
             return destCommand;
         }
-        currentCommand.pipe(dest, ...options);
-        return dest;
+        return currentCommand.pipe(dest, ...options);
     }
     on(event, cb) {
         const currentCommand = this.stream();
-        currentCommand.on(event, cb);
-        return currentCommand;
+        return currentCommand.on(event, cb);
     }
     out() {
         return this.process().stdout;
