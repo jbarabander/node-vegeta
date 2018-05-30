@@ -83,7 +83,7 @@ class Command {
             const globalFlags = command.globalFlags;
             let commandToGiveBack = createStream(command.name, flags, globalFlags);
             if (prev) {
-                prev.stdout.pipe(commandToGiveBack);
+                prev.pipe(commandToGiveBack);
             }
             return commandToGiveBack;
         }, null);
