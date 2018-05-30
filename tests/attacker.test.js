@@ -1,11 +1,17 @@
 const Attack = require('../src/attacker');
 const Report = require('../src/reporter');
+const Command = require('../src/command');
 const Dump = require('../src/dumper');
 const path = require('path');
 const expect = require('chai').expect;
 
 describe('Attacker', () => {
     const targetsPath = path.join(__dirname, 'targets.txt');
+    it('should be an instance of Command', (done) => {
+        const baseAttack = new Attack();
+        expect(baseAttack).to.be.an.instanceof(Command);
+        done();
+    });
     it('should have the command name set to attack', (done) => {
         const baseAttack = new Attack();
         baseAttack.body('body.json');

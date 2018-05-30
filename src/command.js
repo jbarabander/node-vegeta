@@ -1,5 +1,5 @@
 const { spawn, exec } = require('child_process');
-const { isInteger, createCommand } = require('./utils');
+const { isInteger, createCommand, createStream } = require('./utils');
 
 const GLOBAL_FLAGS = {
     cpus: isInteger,
@@ -77,18 +77,29 @@ class Command {
             return commandToGiveBack;
         }, null);
     }
-    pipe(dest) {
-        const currentCommand = this.process();
+    stream() {
+        return this.commands.reduce((prev, command, i) => {
+            const flags = command.flags;
+            const globalFlags = command.globalFlags;
+            let commandToGiveBack = createStream(command.name, flags, globalFlags);
+            if (prev) {
+                prev.stdout.pipe(commandToGiveBack);
+            }
+            return commandToGiveBack;
+        }, null);
+    }
+    pipe(dest, ...options) {
+        const currentCommand = this.stream();
         if (dest instanceof Command) {
-            const destCommand = dest.process();
-            currentCommand.stdout.pipe(destCommand.stdin);
-            return destCommand.stdout;
+            const destCommand = dest.stream();
+            currentCommand.pipe(destCommand, ...options);
+            return destCommand;
         }
-        currentCommand.stdout.pipe(dest);
+        currentCommand.pipe(dest, ...options);
         return dest;
     }
     on(event, cb) {
-        const currentCommand = this.process();
+        const currentCommand = this.stream();
         currentCommand.on(event, cb);
         return currentCommand;
     }

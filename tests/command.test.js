@@ -1,5 +1,6 @@
 const Command = require('../src/command');
-const expect = require('chai').expect;
+const { expect, assert } = require('chai');
+const ChildProcess = require('child_process').ChildProcess;
 
 describe('Command', () => {
     it('should have the correct prior commands when provided in constructor', (done) => {
@@ -31,4 +32,23 @@ describe('Command', () => {
             done();
         });
     });
+    describe('process', () => {
+        it('should execute the command and return back an instance of child process', (done) => {
+            const command = new Command();
+            const process = command.process();
+            expect(process).to.be.an.instanceOf(ChildProcess);
+            done();
+        });
+    });
+    describe('stream', () => {
+        it('should execute the command and return back a duplex stream', (done) => {
+            const command = new Command();
+            const stream = command.stream();
+            assert.isFunction(stream.pipe);
+            assert.isFunction(stream.on);
+            assert.isFunction(stream._read);
+            assert.isFunction(stream._write);
+            done();
+        })
+    })
 })
