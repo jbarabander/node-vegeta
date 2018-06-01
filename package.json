@@ -1,12 +1,15 @@
 {
   "name": "node-vegeta",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "vegeta in node!",
   "main": "src/index.js",
   "license": "MIT",
+  "scripts": {
+    "test": "node ./node_modules/.bin/mocha --timeout=10000 ./tests"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jbarabander/node-vegeta.git"
+    "url": "https://github.com/jbarabander/scouter.git"
   },
   "keywords": [
     "vegeta",
@@ -15,6 +18,12 @@
     "testing",
     "load",
     "what does the scouter say about his power level",
-    "power level"
-  ]
+    "its over nine thousand",
+    "power level",
+    "scouter"
+  ],
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0"
+  }
 }
