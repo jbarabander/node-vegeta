@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const archiver = require('archiver');
 const vegeta = require('node-vegeta');
-const Attack = vegeta.Attack;
+const ATTACK = vegeta.ATTACK;
 const Report = vegeta.Report;
 const app = express();
 
@@ -19,7 +19,7 @@ app.post('/load-test', (req, res) => {
     });
     const url = req.body.url;
     const rate = req.body.rate;
-    const attack = new Attack();
+    const attack = new ATTACK();
     const report = new Report();
     const attackCommand = attack.duration('15s').rate(parseInt(rate, 10) || 50).process();
     const reportCommand = report.reporter('json').process();
