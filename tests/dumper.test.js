@@ -1,6 +1,7 @@
 const Dump = require('../src/dumper');
 const Command = require('../src/command');
 const expect = require('chai').expect;
+
 describe('Dumper', () => {
     it('should be an instance of Command', (done) => {
         const baseDump = new Dump();
