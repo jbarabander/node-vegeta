@@ -7,6 +7,7 @@ node.js bindings for the wonderful vegeta load-testing library.  See here: https
 Vegeta is an awesome load-testing library.  It makes load testing super stress-free and is overall a real joy to use.  However, currently there doesn't seem to be a library allowing you to use vegeta in a javascript context.  This library sets out to change this by exposing the CLI implementation of vegeta in the node.js environment.
 
 NOTE: vegeta must be installed on your machine in order to use this library.  For help doing that see here: https://github.com/tsenart/vegeta#install
+
 ## Installation
 ```sh
 npm install node-vegeta --save
@@ -21,12 +22,12 @@ yarn add node-vegeta
 ### Basic
 Using node-vegeta is very similar to using vegeta via CLI.  All vegeta commands are supported via node classes like so:
 ```js
-const Attack = require('node-vegeta').Attack;
-const testAttack = new Attack(); // spawns an attack command
+const ATTACK = require('node-vegeta').ATTACK;
+const testAttack = new ATTACK(); // spawns an attack command
 testAttack
     .targets('targets.txt')
     .body('body.json')
-    .rate(500)
+    .rate(9001) // ITS OVER NINE THOUSAND!!!
     .duration('5m')
     .report() // spawns the report command and pipes the results of the attack command to it
     .process() // fires off the actual process
@@ -39,14 +40,15 @@ All flags for `attack`, `report`, and `dump` are also supported by the node inte
 ### Streaming
 This library supports streaming from the get-go.  It should be very easy to integrate with the wonderful streaming
 ecosystem that nodejs supports
+
 Example:
 ```js
 const fs = require('fs');
 const path = require('path');
 const vegeta = require('node-vegeta');
-const Attack = vegeta.Attack;
+const ATTACK = vegeta.ATTACK;
 const Report = vegeta.Report;
-const testAttack = new Attack();
+const testAttack = new ATTACK();
 const testReport = new Report();
 const summaryStream = fs.createWriteStream(path.join(__dirname, 'summary.json'));
 const resultsStream = fs.createWriteStream(path.join(__dirname, 'results.bin'));
