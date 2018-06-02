@@ -15,18 +15,21 @@ const transformFlags = (flags) => {
     return flags.map((flag) => transformFlag(flag.name, flag.value));
 }
 
-const createCommand = (command, flags, globalFlags) => {
+const createCommandOptions = ({name, flags, globalFlags}) => {
     const parsedGlobalFlags = transformFlags(globalFlags);
     const parsedCommandFlags = transformFlags(flags);
-    const allOptions = parsedGlobalFlags.concat([command], parsedCommandFlags);
-    return spawn('vegeta', allOptions);
+    const allOptions = parsedGlobalFlags.concat([name], parsedCommandFlags);
+    return allOptions;
 }
 
-const createStream = (command, flags, globalFlags) => {
-    const parsedGlobalFlags = transformFlags(globalFlags);
-    const parsedCommandFlags = transformFlags(flags);
-    const allOptions = parsedGlobalFlags.concat([command], parsedCommandFlags);
-    return duplexSpawn('vegeta', allOptions);
+const createCommand = (config) => {
+    const options = createCommandOptions(config);
+    return spawn('vegeta', options);
+}
+
+const createStream = (config) => {
+    const options = createCommandOptions(config);
+    return duplexSpawn('vegeta', options);
 }
 
 module.exports = {

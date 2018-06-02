@@ -68,9 +68,7 @@ class Command {
     }
     process() {
         return this.commands.reduce((prev, command, i) => {
-            const flags = command.flags;
-            const globalFlags = command.globalFlags;
-            let commandToGiveBack = createCommand(command.name, flags, globalFlags);
+            let commandToGiveBack = createCommand(command);
             if (prev) {
                 prev.stdout.pipe(commandToGiveBack.stdin);
             }
@@ -79,9 +77,7 @@ class Command {
     }
     stream() {
         return this.commands.reduce((prev, command, i) => {
-            const flags = command.flags;
-            const globalFlags = command.globalFlags;
-            let commandToGiveBack = createStream(command.name, flags, globalFlags);
+            let commandToGiveBack = createStream(command);
             if (prev) {
                 prev.pipe(commandToGiveBack);
             }
@@ -96,16 +92,6 @@ class Command {
             return destCommand;
         }
         return currentCommand.pipe(dest, ...options);
-    }
-    on(event, cb) {
-        const currentCommand = this.stream();
-        return currentCommand.on(event, cb);
-    }
-    out() {
-        return this.process().stdout;
-    }
-    in() {
-        return this.process().stdin;
     }
 }
 
