@@ -5,6 +5,17 @@ const Reporter = require('./reporter');
 
 const convertToDuration = (value) => typeof value === 'number' ? `${value}ms` : value;
 
+const availableMethods = [
+    'GET',
+    'HEAD',
+    'POST',
+    'PUT',
+    'DELETE',
+    'CONNECT',
+    'OPTIONS',
+    'TRACE',
+];
+
 class Attacker extends Command {
     constructor(priorCommands, options) {
         super('attack', priorCommands, options);
@@ -120,11 +131,23 @@ class Attacker extends Command {
         return this.addFlag('workers', value);
     }
     request(method, url) {
-        const command = createCommand(this.currentCmd.name, this.currentCmd.flags, this.currentCmd.globalFlags);
-        command.stdin.setEncoding('utf-8');
-        command.stdin.write(`${method.toUpperCase()} ${url}\n`);
-        command.std.end();
-        return command;
+        if (typeof method !== 'string') {
+            throw Error('method must be a string');
+        }
+        if (typeof url !== 'string') {
+            throw Error('url must be a string');
+        }
+        const newCopy = this.generateCopy();
+        const upperCasedMethod = method.toUpperCase(); 
+        if (!availableMethods.includes(upperCasedMethod)) {
+            throw Error('invalid method supplied');
+        }
+        newCopy.commands.splice(
+            newCopy.commands.length - 1, 
+            0, 
+            {name: `${upperCasedMethod} ${url}`, command: 'echo', flags: [], globalFlags: []}
+        );
+        return newCopy;
     }
     dump() {
         return new Dumper(this.commands);

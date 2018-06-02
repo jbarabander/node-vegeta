@@ -9,16 +9,22 @@ const GLOBAL_FLAGS = {
 
 class Command {
     constructor(name = null, priorCommands = [], options = {flags: [], globalFlags: []}) {
-        this.commands = priorCommands.slice().map((command) => ({
-            name: command.name,
-            flags: command.flags.slice(),
-            globalFlags: command.globalFlags.slice(),
-        }));
+        this.commands = priorCommands.slice().map((command) => {
+            const newCommand = {
+                name: command.name,
+                flags: command.flags.slice(),
+                globalFlags: command.globalFlags.slice(),
+            }
+            if (command.command) {
+                newCommand.command = command.command;
+            }
+            return newCommand;
+        });
         const flags = options.flags || [];
         this.currentCmd = {
             name,
             flags,
-            globalFlags: options.globalFlags || []
+            globalFlags: options.globalFlags || [],
         };
         this.flagsHash = flags.reduce((prev, curr) => {
             if(curr.name) {
@@ -32,7 +38,7 @@ class Command {
         const CurrentCommand = this.constructor;
         const args = [
             this.commands.slice(0, this.commands.length - 1),
-            {flags: this.currentCmd.flags, globalFlags: this.currentCmd.globalFlags}
+            {flags: this.currentCmd.flags, globalFlags: this.currentCmd.globalFlags, command: this.currentCmd.command}
         ];
         if (CurrentCommand === Command) {
             args.unshift(this.currentCmd.name);
@@ -68,9 +74,7 @@ class Command {
     }
     process() {
         return this.commands.reduce((prev, command, i) => {
-            const flags = command.flags;
-            const globalFlags = command.globalFlags;
-            let commandToGiveBack = createCommand(command.name, flags, globalFlags);
+            let commandToGiveBack = createCommand(command);
             if (prev) {
                 prev.stdout.pipe(commandToGiveBack.stdin);
             }
@@ -79,9 +83,7 @@ class Command {
     }
     stream() {
         return this.commands.reduce((prev, command, i) => {
-            const flags = command.flags;
-            const globalFlags = command.globalFlags;
-            let commandToGiveBack = createStream(command.name, flags, globalFlags);
+            let commandToGiveBack = createStream(command);
             if (prev) {
                 prev.pipe(commandToGiveBack);
             }
@@ -100,12 +102,6 @@ class Command {
     on(event, cb) {
         const currentCommand = this.stream();
         return currentCommand.on(event, cb);
-    }
-    out() {
-        return this.process().stdout;
-    }
-    in() {
-        return this.process().stdin;
     }
 }
 
