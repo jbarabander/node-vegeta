@@ -22,8 +22,8 @@ yarn add node-vegeta
 ### Basic
 Using node-vegeta is very similar to using vegeta via CLI.  All vegeta commands are supported via node classes like so:
 ```js
-const ATTACK = require('node-vegeta').ATTACK;
-const testAttack = new ATTACK(); // spawns an attack command
+const Attack = require('node-vegeta').Attack;
+const testAttack = new Attack(); // spawns an attack command
 testAttack
     .targets('targets.txt')
     .body('body.json')
@@ -46,7 +46,7 @@ Example:
 const fs = require('fs');
 const path = require('path');
 const vegeta = require('node-vegeta');
-const ATTACK = vegeta.ATTACK;
+const Attack = vegeta.Attack;
 const Report = vegeta.Report;
 const testAttack = new ATTACK();
 const testReport = new Report();

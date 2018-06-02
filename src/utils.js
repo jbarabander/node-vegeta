@@ -1,4 +1,5 @@
 const spawn = require('child_process').spawn;
+const duplexSpawn = require('duplex-child-process').spawn;
 
 const isInteger = (value) => parseInt(value, 10) === value;
 
@@ -14,11 +15,21 @@ const transformFlags = (flags) => {
     return flags.map((flag) => transformFlag(flag.name, flag.value));
 }
 
-const createCommand = (command, flags, globalFlags) => {
+const createCommandOptions = ({name, flags, globalFlags}) => {
     const parsedGlobalFlags = transformFlags(globalFlags);
     const parsedCommandFlags = transformFlags(flags);
-    const allOptions = parsedGlobalFlags.concat([command], parsedCommandFlags);
-    return spawn('vegeta', allOptions);
+    const allOptions = parsedGlobalFlags.concat([name], parsedCommandFlags);
+    return allOptions;
+}
+
+const createCommand = (config) => {
+    const options = createCommandOptions(config);
+    return spawn('vegeta', options);
+}
+
+const createStream = (config) => {
+    const options = createCommandOptions(config);
+    return duplexSpawn('vegeta', options);
 }
 
 module.exports = {
@@ -26,4 +37,5 @@ module.exports = {
     transformFlag,
     transformFlags,
     createCommand,
+    createStream,
 };
