@@ -1,4 +1,4 @@
-const { isInteger, createCommand } = require('./utils');
+const { isInteger, createCommand, validateFile } = require('./utils');
 const Command = require('./command');
 const Dumper = require('./dumper');
 const Reporter = require('./reporter');
@@ -10,9 +10,8 @@ class Attacker extends Command {
         super('attack', priorCommands, options);
     }
     body(file) {
-        if (typeof file !== 'string') {
-            throw Error('file flag is not a string');
-        }
+        const validationErr = validateFile(file);
+        if (validationErr) throw validationErr;
         return this.addFlag('body', file);
     }
     cert(value) {
@@ -101,9 +100,8 @@ class Attacker extends Command {
         return this.addFlag('root-certs', value);
     }
     targets(file) {
-        if (typeof file !== 'string') {
-            throw Error('targets must be a string');
-        }
+        const validationErr = validateFile(file);
+        if (validationErr) throw validationErr;
         return this.addFlag('targets', file);
     }
     timeout(value) {
