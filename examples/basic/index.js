@@ -7,5 +7,5 @@ testAttack
     .report() // spawns the report command and pipes the results of the attack command to it
     .process() // fires off the actual process
     .stdout.on('data', (data) => {
-        console.log('report', data.toString())
+        console.log('report', data.toString());
     })
