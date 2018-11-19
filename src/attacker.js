@@ -15,9 +15,8 @@ class Attacker extends Command {
         return this.addFlag('body', file);
     }
     cert(value) {
-        if (typeof value !== 'string') {
-            throw Error('cert flag is not a string');
-        }
+        const validationErr = validateFile(value);
+        if (validationErr) throw validationErr;
         return this.addFlag('cert', value);
     }
     duration(value) {
