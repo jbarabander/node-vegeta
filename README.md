@@ -28,7 +28,7 @@ testAttack
     .targets('targets.txt')
     .body('body.json')
     .rate(9001) // ITS OVER NINE THOUSAND!!!
-    .duration('5m')
+    .duration('30s')
     .report() // spawns the report command and pipes the results of the attack command to it
     .process() // fires off the actual process
     .stdout.on('data', (data) => {
