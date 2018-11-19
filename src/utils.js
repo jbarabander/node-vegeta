@@ -37,7 +37,9 @@ const createCommandOptions = ({name, flags, globalFlags}) => {
 
 const createCommand = (config) => {
     const options = createCommandOptions(config);
-    return spawn('vegeta', options);
+    const command = spawn('vegeta', options);
+    command.stderr.setEncoding('utf-8');
+    return command;
 }
 
 const createStream = (config) => {
