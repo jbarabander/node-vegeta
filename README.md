@@ -28,7 +28,7 @@ testAttack
     .targets('targets.txt')
     .body('body.json')
     .rate(9001) // ITS OVER NINE THOUSAND!!!
-    .duration('5m')
+    .duration('30s')
     .report() // spawns the report command and pipes the results of the attack command to it
     .process() // fires off the actual process
     .stdout.on('data', (data) => {
@@ -48,7 +48,7 @@ const path = require('path');
 const vegeta = require('node-vegeta');
 const Attack = vegeta.Attack;
 const Report = vegeta.Report;
-const testAttack = new ATTACK();
+const testAttack = new Attack();
 const testReport = new Report();
 const summaryStream = fs.createWriteStream(path.join(__dirname, 'summary.json'));
 const resultsStream = fs.createWriteStream(path.join(__dirname, 'results.bin'));

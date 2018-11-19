@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const archiver = require('archiver');
 const vegeta = require('node-vegeta');
-const ATTACK = vegeta.ATTACK;
+const Attack = vegeta.Attack;
 const Report = vegeta.Report;
 const app = express();
 
