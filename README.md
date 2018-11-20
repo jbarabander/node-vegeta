@@ -57,7 +57,7 @@ const attackCommand = testAttack
     .rate(500)
     .duration('5s')
     .process();
-const reportCommand = testReport.reporter('json').process();
+const reportCommand = testReport.type('json').process();
 
 attackCommand.stdin.setEncoding('utf-8');
 attackCommand.stdin.write('GET localhost:3000\n'); // fire the attack to localhost:3000
