@@ -47,11 +47,14 @@ const createStream = (config) => {
     return duplexSpawn('vegeta', options);
 }
 
+const convertToDuration = (value) => typeof value === 'number' ? `${value}ms` : value;
+
 module.exports = {
     isInteger,
     transformFlag,
     transformFlags,
     createCommand,
     createStream,
-    validateFile
+    validateFile,
+    convertToDuration
 };

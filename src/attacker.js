@@ -1,9 +1,7 @@
-const { isInteger, createCommand, validateFile } = require('./utils');
+const { isInteger, createCommand, validateFile, convertToDuration } = require('./utils');
 const Command = require('./command');
 const Dumper = require('./dumper');
 const Reporter = require('./reporter');
-
-const convertToDuration = (value) => typeof value === 'number' ? `${value}ms` : value;
 
 class Attacker extends Command {
     constructor(priorCommands, options) {
@@ -115,13 +113,6 @@ class Attacker extends Command {
             throw Error('workers must be a positive integer');
         }
         return this.addFlag('workers', value);
-    }
-    request(method, url) {
-        const command = createCommand(this.currentCmd.name, this.currentCmd.flags, this.currentCmd.globalFlags);
-        command.stdin.setEncoding('utf-8');
-        command.stdin.write(`${method.toUpperCase()} ${url}\n`);
-        command.std.end();
-        return command;
     }
     dump() {
         return new Dumper(this.commands);

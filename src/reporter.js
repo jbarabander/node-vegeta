@@ -1,3 +1,4 @@
+const { convertToDuration } = require('./utils');
 const Command = require('./command');
 const reporterValues = ['text', 'json', 'plot'];
 
@@ -5,11 +6,12 @@ class Reporter extends Command {
     constructor(priorCommands, options) {
         super('report', priorCommands, options);
     }
-    inputs(value) {
-        if (typeof value !== 'string') {
-            throw Error('inputs must be a string');
+    every(value) {
+        const convertedVal = convertToDuration(value);
+        if (typeof convertedVal !== 'string') {
+            throw Error('every flag is not a string or number');
         }
-        return this.addFlag('inputs', value);
+        return this.addFlag('every', convertedVal);
     }
     output(value) {
         if (typeof value !== 'string') {
@@ -17,11 +19,11 @@ class Reporter extends Command {
         }
         this.addFlag('output', value);
     }
-    reporter(value) {
+    type(value) {
         if (value.startsWith('hist[') && !reporterValues.find(value)) {
             throw Error('reporter must be either text, json, plot or hist[buckets]');
         }
-        return this.addFlag('reporter', value);
+        return this.addFlag('type', value);
     }
 }
 
