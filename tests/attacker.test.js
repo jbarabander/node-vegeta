@@ -1,7 +1,8 @@
 const Attack = require('../src/attacker');
 const Report = require('../src/reporter');
+const Encode = require('../src/encoder');
+const Plot = require('../src/plotter');
 const Command = require('../src/command');
-const Dump = require('../src/dumper');
 const path = require('path');
 const expect = require('chai').expect;
 
@@ -26,11 +27,19 @@ describe('Attacker', () => {
             done();
         });
     });
-    describe('dump', () => {
-        it('should return instance of dump', (done) => {
-            const dumpAttack = new Attack();
-            const dump = dumpAttack.dump();
-            expect(dump).to.be.an.instanceof(Dump);
+    describe('encode', () => {
+        it('should return instance of encode', (done) => {
+            const encodeAttack = new Attack();
+            const encode = encodeAttack.encode();
+            expect(encode).to.be.an.instanceof(Encode);
+            done();
+        })
+    });
+    describe('plot', () => {
+        it('should return instance of plot', (done) => {
+            const plotAttack = new Attack();
+            const plot = plotAttack.encode();
+            expect(plot).to.be.an.instanceof(Plot);
             done();
         })
     });

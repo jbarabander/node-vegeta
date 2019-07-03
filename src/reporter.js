@@ -9,18 +9,18 @@ class Reporter extends Command {
     every(value) {
         const convertedVal = convertToDuration(value);
         if (typeof convertedVal !== 'string') {
-            throw Error('every flag is not a string or number');
+            throw TypeError('every is not a string or number');
         }
         return this.addFlag('every', convertedVal);
     }
     output(value) {
         if (typeof value !== 'string') {
-            throw Error('output must be a string');
+            throw TypeError('output must be a string');
         }
         this.addFlag('output', value);
     }
     type(value) {
-        if (value.startsWith('hist[') && !reporterValues.find(value)) {
+        if (!value.startsWith('hist[') && !reporterValues.find(value)) {
             throw Error('reporter must be either text, json, plot or hist[buckets]');
         }
         return this.addFlag('type', value);

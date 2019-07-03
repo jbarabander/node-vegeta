@@ -1,10 +1,11 @@
 const Reporter = require('./reporter');
 const Attacker = require('./attacker');
-const Dumper = require('./dumper');
+const Encoder = require('./encoder');
+const Plotter = require('./plotter');
 
 module.exports = {
     Report: Reporter,
-    ATTACK: Attacker,
     Attack: Attacker,
-    Dump: Dumper,
+    Encode: Encoder,
+    Plot: Plotter
 };
