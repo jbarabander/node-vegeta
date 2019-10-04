@@ -35,7 +35,7 @@ testAttack
         console.log('report', data)
     })
 ```
-All flags for `attack`, `report`, and `dump` are also supported by the node interface.
+All flags for `attack`, `encode`, `report`, and `plot` are also supported by the node interface.
 
 ### Streaming
 This library supports streaming from the get-go.  It should be very easy to integrate with the wonderful streaming
