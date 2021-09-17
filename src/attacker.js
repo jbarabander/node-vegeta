@@ -117,10 +117,10 @@ class Attacker extends Command {
         return this.addFlag('output', value);
     }
     rate(value) {
-        if (!isValidRateStr(value) || !isInteger(value) || value < 0) {
-            throw TypeError('rate must be a positive integer or a valid flexRate string (ex: 50/m)');
+        if (isValidRateStr(value) || (isInteger(value) && value > 0)) {
+            return this.addFlag('rate', value);
         }
-        return this.addFlag('rate', value);
+        throw TypeError('rate must be a positive integer or a valid flexRate string (ex: 50/m)');
     }
     redirects(value) {
         if (!isInteger(value) || value < 0) {

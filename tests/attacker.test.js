@@ -15,7 +15,7 @@ describe('Attacker', () => {
     });
     it('should have the command name set to attack', (done) => {
         const baseAttack = new Attack();
-        baseAttack.body('body.json');
+        baseAttack.body('./tests/body.json');
         expect(baseAttack.currentCmd.name).to.equal('attack');
         done();
     });
@@ -38,7 +38,7 @@ describe('Attacker', () => {
     describe('plot', () => {
         it('should return instance of plot', (done) => {
             const plotAttack = new Attack();
-            const plot = plotAttack.encode();
+            const plot = plotAttack.plot();
             expect(plot).to.be.an.instanceof(Plot);
             done();
         })
