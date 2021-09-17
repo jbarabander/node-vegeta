@@ -1,4 +1,4 @@
-const Encode = require('../src/Encodeter');
+const Encode = require('../src/encoder');
 const expect = require('chai').expect;
 const Command = require('../src/command');
 

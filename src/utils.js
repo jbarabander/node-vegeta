@@ -32,7 +32,7 @@ let validateResolver = (resolver) => {
 let rateStrRegex = /\d+\/(ns|us|µs|ms|s|m|h)/;
 
 let isValidRateStr = (rate) => {
-    if (typeof rate !== 'string') {
+    if (typeof rate !== 'string' && !(rate instanceof String)) {
         return false;
     }
     return rateStrRegex.test(rate);
